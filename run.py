@@ -1,5 +1,6 @@
 import tensorflow as tf
 import preprocessing
+import numpy as np
 
 from model.vgg_16 import VGG16
 
@@ -8,6 +9,8 @@ input_height = 224
 num_channels = 3
 
 image_path = "./data/stadium.jpg"
+weights_path = "./data/vgg16_places365.npy"
+labels_path = "./data/labels.txt"
 
 
 def main(unused_arguments):
@@ -21,10 +24,24 @@ def main(unused_arguments):
     net = VGG16({'data': input_data})
 
     with tf.Session() as sess:
-        net.load('data/vgg16_places365.npy', sess)
+        net.load(weights_path, sess)
         predictions = sess.run(net.get_output(), feed_dict={input_data: np_image})
+        print_results(predictions)
 
-        print"{} - {}".format(predictions.argmax(), predictions[0, predictions.argmax()])
+
+def print_results(predictions):
+    # Convert predictions to numpy
+    np_pred = np.array(predictions).flatten()
+
+    # Take the indexes of the 5 highest values
+    np_index = np_pred.argsort()[-5:][::-1]
+
+    # Load the labels in memory
+    labels = open(labels_path, "r").readlines()
+
+    for i in range(0, 5):
+        print"Es un {} con probabilidad de {}".format(labels[np_index[i]], np_pred[np_index[i]])
+        print"---------------"
 
 
 if __name__ == "__main__":
