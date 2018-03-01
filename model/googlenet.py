@@ -1,6 +1,11 @@
 from model.network import Network
 
+
 class GoogleNet(Network):
+    input_width = 224
+    input_height = 224
+    num_channels = 3
+
     def setup(self):
         (self.feed('data')
              .conv(7, 7, 64, 2, 2, name='conv1_7x7_s2')

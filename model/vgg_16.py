@@ -2,6 +2,10 @@ from model.network import Network
 
 
 class VGG16(Network):
+    input_width = 224
+    input_height = 224
+    num_channels = 3
+
     def setup(self):
         (self.feed('data')
              .conv(3, 3, 64, 1, 1, name='conv1_1')

@@ -4,10 +4,13 @@ from model.googlenet import GoogleNet
 MODELS = {'vgg16', 'googlenet'}
 
 
-def net_build(data, type):
-    if type not in MODELS:
-        return None
-    if type is 'vgg16':
-        return VGG16({'data': data})
-    if type is 'googlenet':
-        return GoogleNet({'data': data})
+class Helper:
+
+    def __init__(self, model_name):
+        if model_name is 'vgg16':
+            self.net = VGG16
+        if model_name is 'googlenet':
+            self.net = GoogleNet
+
+    def net_build(self, data):
+        return self.net({'data': data})
