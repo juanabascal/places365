@@ -1,5 +1,6 @@
 # Project data
 data/
+!data/labels.txt
 
 # Ignore pyCharm
 .idea/

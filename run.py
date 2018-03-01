@@ -2,13 +2,13 @@ import tensorflow as tf
 import preprocessing
 import numpy as np
 
-from model.vgg_16 import VGG16
+import model.helper as model_helper
 
 input_width = 224
 input_height = 224
 num_channels = 3
 
-image_path = "./data/stadium.jpg"
+image_path = "./data/castle.jpg"
 weights_path = "./data/vgg16_places365.npy"
 labels_path = "./data/labels.txt"
 
@@ -21,7 +21,7 @@ def main(unused_arguments):
     input_data = tf.placeholder(tf.float32, shape=[None, input_width, input_height, 3])
 
     # Load the net
-    net = VGG16({'data': input_data})
+    net = model_helper.net_build(input_data, 'vgg16')
 
     with tf.Session() as sess:
         net.load(weights_path, sess)
